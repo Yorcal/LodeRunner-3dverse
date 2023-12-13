@@ -3,7 +3,6 @@ import {
   publicToken,
   mainSceneUUID,
   characterControllerSceneUUID,
-  cubeSceneUUID,
 } from "./config.js";
 
 //------------------------------------------------------------------------------
@@ -57,6 +56,7 @@ async function InitFirstPersonController(charCtlSceneUUID) {
   const firstPersonCamera = children.find((child) =>
     child.isAttached("camera")
   );
+
 
   // We need to assign the current client to the first person controller
   // script which is attached to the firstPersonController entity.
