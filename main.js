@@ -20,6 +20,12 @@ async function InitApp() {
 
   await InitFirstPersonController(characterControllerSceneUUID);
   console.log("Init Finished");
+
+  SDK3DVerse.engineAPI.onEnterTrigger( (emiterEntity, triggerEntity) => {
+    console.log("hello");
+  });
+
+  document.addEventListener("keydown", onKeyDown);
 }
 
 //------------------------------------------------------------------------------
@@ -57,7 +63,6 @@ async function InitFirstPersonController(charCtlSceneUUID) {
     child.isAttached("camera")
   );
 
-
   // We need to assign the current client to the first person controller
   // script which is attached to the firstPersonController entity.
   // This allows the script to know which client inputs it should read.
@@ -66,3 +71,24 @@ async function InitFirstPersonController(charCtlSceneUUID) {
   // Finally set the first person camera as the main camera.
   SDK3DVerse.setMainCamera(firstPersonCamera);
 }
+
+async function onKeyDown(event){
+  if(event.code === "KeyS"){
+    await Raycast();
+  }
+}
+
+async function Raycast()
+{
+  const origin = [0,1,0];
+  const direction = [0,1,0];
+  const rayLength = 20;
+  const filterFlags = SDK3DVerse.PhysicsQueryFilterFlag.static_block | SDK3DVerse.PhysicsQueryFilterFlag.record_touches;
+  
+  // Returns dynamic body (if the ray hit one) in block, and all static bodies encountered along the way in touches
+  const { block, touches } = await SDK3DVerse.engineAPI.physicsRaycast(origin, direction, rayLength, filterFlags);
+
+  console.log(block);
+  console.log(touches);
+}
+
