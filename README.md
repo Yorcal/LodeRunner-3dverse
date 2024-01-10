@@ -2,9 +2,13 @@
 
 ## Starting Project
 
-npm i serve
+Pour React :
 
-npx serve
+cp app
+
+npm i 
+
+npm run dev
 
 ## Description
 
