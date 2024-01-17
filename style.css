@@ -41,3 +41,10 @@ body {
 #display-canvas:focus-visible {
   outline: none;
 }
+#counter {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 36px;
+  font-weight: bold;
+}
