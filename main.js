@@ -3,7 +3,13 @@ import {
   publicToken,
   mainSceneUUID,
   characterControllerSceneUUID,
+  SCORING_EVENT_MAP_UUID,
+  ENTITY_EVENT_MAP_UUID,
 } from "./config.js";
+
+import {
+  DesactivateBlock,
+} from "./EntityFunctions.js";
 
 //------------------------------------------------------------------------------
 window.addEventListener("load", InitApp);
@@ -19,13 +25,19 @@ async function InitApp() {
   });
 
   await InitFirstPersonController(characterControllerSceneUUID);
-  console.log("Init Finished");
+
+  //SDK3DVerse.engineAPI.scriptNotifier.on(`${SCORING_EVENT_MAP_UUID}/UpdateScore`, (params)  => console.log("UpdateScore event received with params:", params));
+
+  SDK3DVerse.engineAPI.registerToEvent(SCORING_EVENT_MAP_UUID, "UpdateScore", (params) => console.log("Score has been updated : ", params));
+  SDK3DVerse.engineAPI.registerToEvent(ENTITY_EVENT_MAP_UUID, "StartDesactivate", DesactivateBlock);
 
   SDK3DVerse.engineAPI.onEnterTrigger( (emiterEntity, triggerEntity) => {
     console.log("hello");
   });
 
-  document.addEventListener("keydown", onKeyDown);
+  console.log("Init Finished");
+
+  //document.addEventListener("keydown", onKeyDown);
 }
 
 //------------------------------------------------------------------------------
@@ -72,6 +84,7 @@ async function InitFirstPersonController(charCtlSceneUUID) {
   SDK3DVerse.setMainCamera(firstPersonCamera);
 }
 
+/*
 async function onKeyDown(event){
   if(event.code === "KeyS"){
     await Raycast();
@@ -91,4 +104,5 @@ async function Raycast()
   console.log(block);
   console.log(touches);
 }
+*/
 
