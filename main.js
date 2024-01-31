@@ -4,11 +4,18 @@ import {
   mainSceneUUID,
   characterControllerSceneUUID,
   SCORING_EVENT_MAP_UUID,
-  ENTITY_EVENT_MAP_UUID,
+  CORE_EVENT_MAP_UUID,
+  level_1_UUID,
+  level_2_UUID,
+  level_3_UUID
 } from "./config.js";
 
 //------------------------------------------------------------------------------
 window.addEventListener("load", InitApp);
+
+var counter = document.getElementById("counter");
+
+var levelidx = 1;
 
 //------------------------------------------------------------------------------
 async function InitApp() {
@@ -19,20 +26,14 @@ async function InitApp() {
     createDefaultCamera: false,
     startSimulation: "on-assets-loaded",
   });
+  
+  SDK3DVerse.engineAPI.registerToEvent(SCORING_EVENT_MAP_UUID, "UpdateScore", updateScoreUI);
+
+  SDK3DVerse.engineAPI.registerToEvent(CORE_EVENT_MAP_UUID, "NextLevel", onNextLevel);
 
   await InitFirstPersonController(characterControllerSceneUUID);
 
-  //SDK3DVerse.engineAPI.scriptNotifier.on(`${SCORING_EVENT_MAP_UUID}/UpdateScore`, (params)  => console.log("UpdateScore event received with params:", params));
-
-  SDK3DVerse.engineAPI.registerToEvent(SCORING_EVENT_MAP_UUID, "UpdateScore", (params) => console.log("Score has been updated : ", params));
-
-  SDK3DVerse.engineAPI.onEnterTrigger( (emiterEntity, triggerEntity) => {
-    console.log("hello");
-  });
-
   console.log("Init Finished");
-
-  //document.addEventListener("keydown", onKeyDown);
 }
 
 //------------------------------------------------------------------------------
@@ -59,6 +60,7 @@ async function InitFirstPersonController(charCtlSceneUUID) {
     parentEntity,
     deleteOnClientDisconnection
   );
+
   console.log("Player entity instantiated");
 
   // The character controller scene is setup as having a single entity at its
@@ -77,27 +79,40 @@ async function InitFirstPersonController(charCtlSceneUUID) {
 
   // Finally set the first person camera as the main camera.
   SDK3DVerse.setMainCamera(firstPersonCamera);
+
+  SDK3DVerse.engineAPI.fireEvent(CORE_EVENT_MAP_UUID, "PlayerSpawned", [], {});
 }
 
-/*
-async function onKeyDown(event){
-  if(event.code === "KeyS"){
-    await Raycast();
-  }
+function updateScoreUI(params){
+  counter.textContent = params.dataObject.CurrentScore;
 }
 
-async function Raycast()
-{
-  const origin = [0,1,0];
-  const direction = [0,1,0];
-  const rayLength = 20;
-  const filterFlags = SDK3DVerse.PhysicsQueryFilterFlag.static_block | SDK3DVerse.PhysicsQueryFilterFlag.record_touches;
+async function onNextLevel(params){
+  const rootEntities = await SDK3DVerse.engineAPI.getRootEntities();
+  const level = rootEntities.find(e => e.getName() === 'level');
+
+
+  levelidx ++;
   
-  // Returns dynamic body (if the ray hit one) in block, and all static bodies encountered along the way in touches
-  const { block, touches } = await SDK3DVerse.engineAPI.physicsRaycast(origin, direction, rayLength, filterFlags);
+  var levelUUID;
 
-  console.log(block);
-  console.log(touches);
+  switch(levelidx){
+
+    case(2): 
+      levelUUID = level_2_UUID;
+      break;
+
+    case(3):
+      levelUUID = level_3_UUID;
+      break;
+
+    default:  
+      levelUUID = level_1_UUID;
+      break;
+  }
+
+  level.setComponent('scene_ref', { value: levelUUID});
+  
+  SDK3DVerse.engineAPI.fireEvent(CORE_EVENT_MAP_UUID, "GameStart", [], {});
+
 }
-*/
-
