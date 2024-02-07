@@ -19,6 +19,7 @@ body {
   display: flex;
   font-family: "Inter", sans-serif;
   overflow: hidden;
+  
 }
 
 .canvas-container {
@@ -29,6 +30,7 @@ body {
   justify-content: center;
   position: relative;
 }
+
 
 #display-canvas:hover {
   cursor: grab;
@@ -47,4 +49,15 @@ body {
   left: 10px;
   font-size: 36px;
   font-weight: bold;
+}
+
+.Overlay{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100dvh;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
 }
