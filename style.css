@@ -17,7 +17,7 @@ body {
   background-color: black;
   margin: auto;
   display: flex;
-  font-family: "Inter", sans-serif;
+  font-family: fantasy;
   overflow: hidden;
   
 }
@@ -49,6 +49,8 @@ body {
   left: 10px;
   font-size: 36px;
   font-weight: bold;
+  color: goldenrod;
+  z-index: 110;
 }
 
 .Overlay{
