@@ -84,7 +84,7 @@ async function InitFirstPersonController(charCtlSceneUUID) {
 }
 
 function updateScoreUI(params){
-  counter.textContent = params.dataObject.CurrentScore;
+  counter.textContent = params.dataObject.CurrentScore + "/" + params.dataObject.GoalScore;
 }
 
 async function onNextLevel(params){
@@ -108,6 +108,7 @@ async function onNextLevel(params){
 
     default:  
       levelUUID = level_1_UUID;
+      levelidx = 0;
       break;
   }
 
