@@ -64,13 +64,19 @@ body {
   z-index: 100;
 }
 
-.Loading{
+#Loading{
   position: absolute;
-  top: 35%;
-  left: 45%;
   width: 100vw;
   height: 100dvh;
   justify-content: center;
   align-items: center;
+  z-index: 98;
+  background-color: black;
+}
+
+.LoadingLogo{
+  top: 35%;
+  left: 45%;
+  position: absolute;
   z-index: 99;
 }

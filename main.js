@@ -1,3 +1,5 @@
+
+
 //------------------------------------------------------------------------------
 import {
   publicToken,
@@ -10,6 +12,7 @@ import {
   level_3_UUID
 } from "./config.js";
 
+import { hideLoadingScreen, showLoadingScreen } from "./loadingScreen.js";
 //------------------------------------------------------------------------------
 window.addEventListener("load", InitApp);
 
@@ -34,6 +37,8 @@ async function InitApp() {
   await InitFirstPersonController(characterControllerSceneUUID);
 
   console.log("Init Finished");
+
+  hideLoadingScreen();
 }
 
 //------------------------------------------------------------------------------
@@ -88,6 +93,10 @@ function updateScoreUI(params){
 }
 
 async function onNextLevel(params){
+
+  showLoadingScreen();
+
+
   const rootEntities = await SDK3DVerse.engineAPI.getRootEntities();
   const level = rootEntities.find(e => e.getName() === 'level');
 
