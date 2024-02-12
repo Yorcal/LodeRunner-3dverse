@@ -63,3 +63,14 @@ body {
   align-items: center;
   z-index: 100;
 }
+
+.Loading{
+  position: absolute;
+  top: 35%;
+  left: 45%;
+  width: 100vw;
+  height: 100dvh;
+  justify-content: center;
+  align-items: center;
+  z-index: 99;
+}
