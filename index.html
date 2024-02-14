@@ -8,7 +8,15 @@
       href="https://cdn.3dverse.com/assets/3dverse-wordmark.svg"
     />
     
-
+    <script src="/node_modules/howler/src/howler.core.js"></script>
+    <script>
+        var sound = new Howl({
+          src: ['./01.mp3'],
+          autoplay: true,
+          loop: true,
+          volume: 0.5,
+        });
+    </script>
     <link rel="stylesheet" href="./style.css" />
   </head>
 
